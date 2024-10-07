@@ -11,8 +11,4 @@ class Utils {
     // TODO : repo_file, repo_dir
 };
 
-Utils::Utils(/* args */) {}
-
-Utils::~Utils() {}
-
 #endif

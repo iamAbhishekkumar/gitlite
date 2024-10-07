@@ -19,7 +19,7 @@ class GitRepo {
         gitdir = fs::path(worktree) / DOTGIT;
 
         if (!(force || (fs::exists(gitdir) && fs::is_directory(gitdir)))) {
-            throw Exception("Not a Git repository" + worktree);
+            throw GitException("Not a Git repository" + worktree);
         }
     }
 
