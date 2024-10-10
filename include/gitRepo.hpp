@@ -7,23 +7,18 @@
 
 namespace fs = std::filesystem;
 
-class GitRepo {
+class GitRepository {
    private:
     std::string worktree;
     std::string gitdir;
     std::string conf;
 
    public:
-    GitRepo(const std::string path, bool force = false) {
-        worktree = path;
-        gitdir = fs::path(worktree) / DOTGIT;
+    GitRepository(std::string path, bool force = false);
 
-        if (!(force || (fs::exists(gitdir) && fs::is_directory(gitdir)))) {
-            throw GitException("Not a Git repository" + worktree);
-        }
-    }
+    std::string getGitDir();
 
-    std::string getGitDir() const { return this->gitdir; }
+    std::string getWorkTree();
 };
 
 #endif
