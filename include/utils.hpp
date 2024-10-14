@@ -1,15 +1,16 @@
-#ifndef PATHUTILS_H
-#define PATHUTILS_H
+#ifndef UTILS_H
+#define UTILS_H
+#include <fstream>
 #include <gitRepo.hpp>
 #include <string>
 #include <vector>
 
-class PathUtils {
+class Utils {
    private:
     GitRepository &repo;
 
    public:
-    PathUtils(GitRepository &repo);
+    Utils(GitRepository &repo);
 
     template <typename... Paths>
     std::string repo_path(Paths... paths);
@@ -20,34 +21,34 @@ class PathUtils {
 
     template <typename... Paths>
     bool create_dir(bool mkdir = false, Paths... paths);
+
+    void write_to_file(std::string &&path, std::string &&content);
 };
 
 template <typename... Paths>
-std::string PathUtils::repo_path(Paths... paths) {
+std::string Utils::repo_path(Paths... paths) {
     // Start with the base path, which is the git directory
     fs::path combined_path = fs::path(repo.getGitDir());
     std::vector<std::string> _paths = {paths...};
     for (auto i : _paths) {
         combined_path /= fs::path(i);
     }
-    std::cout << combined_path;
     return combined_path.string();
 }
 
 template <typename... Paths>
-std::string PathUtils::create_file(bool mkdir, Paths... paths) {
-    std::vector<std::string> pathList = {paths...};
-    if (PathUtils::create_dir(
-            mkdir,
-            std::vector<std::string>(pathList.begin(), pathList.end() - 1))) {
-        return PathUtils::repo_path({paths...});
+std::string Utils::create_file(bool mkdir, Paths... paths) {
+    std::string finalPath = Utils::repo_path(paths...);
+    if (mkdir &&
+        Utils::create_dir(mkdir, fs::path(finalPath).parent_path().string())) {
+        return finalPath;
     }
-    return "";
+    return finalPath;
 }
 
 template <typename... Paths>
-bool PathUtils::create_dir(bool mkdir, Paths... paths) {
-    std::string path = PathUtils::repo_path(paths...);
+bool Utils::create_dir(bool mkdir, Paths... paths) {
+    std::string path = Utils::repo_path(paths...);
     if (fs::exists(path)) {
         if (fs::is_directory(path))
             return true;

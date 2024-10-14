@@ -1,12 +1,12 @@
 #include <../include/argParser.hpp>
-#include <../include/pathUtils.hpp>
+#include <../include/utils.hpp>
 #include <iostream>
 
 #include "gitRepo.hpp"
 
 void repo_create(std::string path) {
     GitRepository repo(path, true);
-    PathUtils pu(repo);
+    Utils pu(repo);
 
     if (fs::exists(repo.getWorkTree())) {
         if (!(fs::is_directory(repo.getWorkTree())))
@@ -18,7 +18,17 @@ void repo_create(std::string path) {
         fs::create_directories(repo.getWorkTree());
 
     pu.create_dir(true, "branches");
-    // pu.repo_path("branches");
+    pu.create_dir(true, "objects");
+    pu.create_dir(true, "refs", "tags");
+    pu.create_dir(true, "refs", "heads");
+
+    pu.write_to_file(pu.create_file(false, "description"),
+                     "Unnamed repository; edit this file 'description' to name "
+                     "the repository.\n");
+
+    pu.write_to_file(pu.create_file(false, "HEAD"), "ref: refs/heads/main\n");
+    // pu.write_to_file(pu.create_file(false, "config"), "ref:
+    // refs/heads/main\n");
 }
 
 int main(int argc, char* argv[]) {
@@ -52,7 +62,7 @@ int main(int argc, char* argv[]) {
     //     return 0;
     // }
 
-    repo_create("/home/gymy/dev/gitLite/package");
+    repo_create("/home/gymy/dev/gitLite/gitSample");
     std::cout << std::endl;
 
     // std::cout << "Unknown command entered!!!" << std::endl;
