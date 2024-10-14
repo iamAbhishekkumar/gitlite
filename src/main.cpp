@@ -1,8 +1,8 @@
-#include <../include/argParser.hpp>
-#include <../include/utils.hpp>
 #include <iostream>
 
+#include "argParser.hpp"
 #include "gitRepo.hpp"
+#include "utils.hpp"
 
 void repo_create(std::string path) {
     GitRepository repo(path, true);
@@ -27,8 +27,7 @@ void repo_create(std::string path) {
                      "the repository.\n");
 
     pu.write_to_file(pu.create_file(false, "HEAD"), "ref: refs/heads/main\n");
-    // pu.write_to_file(pu.create_file(false, "config"), "ref:
-    // refs/heads/main\n");
+    pu.create_default_configs();
 }
 
 int main(int argc, char* argv[]) {
@@ -66,4 +65,6 @@ int main(int argc, char* argv[]) {
     std::cout << std::endl;
 
     // std::cout << "Unknown command entered!!!" << std::endl;
+
+    return 0;
 }

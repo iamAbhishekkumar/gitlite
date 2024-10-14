@@ -1,4 +1,4 @@
-#include <../include/gitRepo.hpp>
+#include "gitRepo.hpp"
 
 GitRepository::GitRepository(std::string path, bool force) {
     worktree = path;

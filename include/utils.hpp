@@ -1,9 +1,11 @@
 #ifndef UTILS_H
 #define UTILS_H
 #include <fstream>
-#include <gitRepo.hpp>
 #include <string>
 #include <vector>
+
+#include "gitRepo.hpp"
+#include "iniHandler.hpp"
 
 class Utils {
    private:
@@ -23,6 +25,7 @@ class Utils {
     bool create_dir(bool mkdir = false, Paths... paths);
 
     void write_to_file(std::string &&path, std::string &&content);
+    void create_default_configs();
 };
 
 template <typename... Paths>

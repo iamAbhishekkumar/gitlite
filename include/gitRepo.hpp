@@ -1,9 +1,10 @@
 #ifndef GITREPO_H
 #define GITREPO_H
-#include <contants.hpp>
 #include <filesystem>
-#include <gitexceptions.hpp>
 #include <string>
+
+#include "contants.hpp"
+#include "gitexceptions.hpp"
 
 namespace fs = std::filesystem;
 

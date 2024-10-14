@@ -1,4 +1,4 @@
-#include <../include/argParser.hpp>
+#include "argParser.hpp"
 
 ArgParser::ArgParser(int &argc, char **argv) {
     for (int i = 0; i < argc; i++) {
