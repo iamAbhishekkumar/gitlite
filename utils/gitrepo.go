@@ -36,7 +36,6 @@ func (g *GitRepo) SetupRepo(path string, force bool) {
 		if _, err := os.Stat(cf); err == nil {
 			g.conf, _ = ini.Load(cf)
 		} else if os.IsNotExist(err) {
-			fmt.Println("Configuration file does not exist")
 			if !force {
 				panic("Configuration file missing")
 			}
