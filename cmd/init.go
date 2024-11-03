@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/iamAbhishekkumar/gitlite/utils"
+	"github.com/iamAbhishekkumar/gitlite/core"
 	"github.com/spf13/cobra"
 )
 
@@ -23,6 +23,6 @@ var initCmd = &cobra.Command{
 		}
 		// Add your repository initialization logic here
 		fmt.Printf("Initializing a new repository in %s\n", path)
-		utils.RepoCreate(path)
+		core.RepoCreate(path)
 	},
 }
