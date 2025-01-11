@@ -1,5 +1,5 @@
 # Gitlite
-
-![logo](assets/gitlite.png)
-
-A lightweight implementation of git
+<p align="center">
+<img src="assets/gitlite.png" height=200px>
+</p>
+A lightweight implementation of git.
