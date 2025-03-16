@@ -1,7 +1,10 @@
 package core
 
 import (
+	"bytes"
+	"compress/zlib"
 	"fmt"
+	"io"
 	"log"
 	"os"
 	"path/filepath"
@@ -90,4 +93,41 @@ func RepoCreate(path string) *GitRepo {
 	WriteToRepoFile(RepoFile(repo, false, "HEAD"), "ref refs/heads/master\n")
 	RepoDefaultConfig(RepoFile(repo, false, "config"))
 	return repo
+}
+
+func ObjectRead(repo *GitRepo, sha string) (GitObject, error) {
+	path := RepoFile(repo, false, "objects", sha[0:2], sha[2:])
+
+	if err := FileExists(path); err != nil {
+		panic(fmt.Sprintf("File Not Found : %s", path))
+	}
+
+	file, err := os.Open(path)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error while opening object file - %s", err)
+	}
+	r, err := zlib.NewReader(io.Reader(file))
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error while creating new zlib reader - %s", err)
+	}
+	r.Close()
+	w, _ := io.ReadAll(r)
+	parts := bytes.Split(w, []byte("\x00")) // split on null character
+	objType := string(parts[0])
+
+	return NewGitObject(objType, parts[1])
+}
+
+func ObjectWrite(obj GitObject, repo *GitRepo) {
+	// data, _ := os.ReadFile(file)
+	// data, _ := obj.Serialize()
+	// contentAndHeader := fmt.Sprintf("%s %d\x00%s", obj.ObjType, data, data)
+
+	// sha := (sha1.Sum([]byte(contentAndHeader)))
+	// hash := fmt.Sprintf("%x", sha)
+
+	// var buffer bytes.Buffer
+	// z := zlib.NewWriter(&buffer)
+	// z.Write([]byte(contentAndHeader))
+	// z.Close()
 }
